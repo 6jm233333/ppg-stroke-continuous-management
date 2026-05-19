@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the manuscript and this software record."
+title: "Photoplethysmographic haemodynamic information for continuous stroke management"
+authors:
+  - family-names: Ding
+    given-names: Cheng
+  - family-names: Liu
+    given-names: Jiaming
+  - family-names: Zhang
+    given-names: Daoqiang
+version: "0.1.0"
+date-released: "2026-05-19"
+abstract: "Manuscript-aligned code and documentation for PPG-based pre-recognition stroke warning and post-admission prognosis stratification using MIMIC-III internal development and MC-MED frozen external validation."
+keywords:
+  - photoplethysmography
+  - stroke
+  - haemodynamics
+  - waveform morphology
+  - prognosis
+  - external validation
+license: "NOASSERTION"

@@ -1,0 +1,28 @@
+# Example path configuration.
+# Copy this file to a local, ignored config and edit paths outside the Git repository.
+
+project:
+  name: ppg-stroke-warning-prognosis
+
+data:
+  root: ${PPG_STROKE_DATA_ROOT}
+  mimiciii:
+    raw: ${PPG_STROKE_DATA_ROOT}/mimiciii/raw
+    waveform: ${PPG_STROKE_DATA_ROOT}/mimiciii/waveform
+    derived: ${PPG_STROKE_DATA_ROOT}/mimiciii/derived
+  mcmed:
+    raw: ${PPG_STROKE_DATA_ROOT}/mcmed/raw
+    waveform: ${PPG_STROKE_DATA_ROOT}/mcmed/waveform
+    derived: ${PPG_STROKE_DATA_ROOT}/mcmed/derived
+
+manifests:
+  warning_anchor_manifest: ${PPG_STROKE_DATA_ROOT}/manifests/warning_anchor_manifest.csv
+  prognosis_label_manifest: ${PPG_STROKE_DATA_ROOT}/manifests/prognosis_label_manifest.csv
+  waveform_linkage_manifest: ${PPG_STROKE_DATA_ROOT}/manifests/waveform_linkage_manifest.csv
+
+outputs:
+  root: ${PPG_STROKE_OUTPUT_ROOT}
+  features: ${PPG_STROKE_OUTPUT_ROOT}/features
+  checkpoints: ${PPG_STROKE_OUTPUT_ROOT}/checkpoints
+  figures: ${PPG_STROKE_OUTPUT_ROOT}/figures
+  tables: ${PPG_STROKE_OUTPUT_ROOT}/tables

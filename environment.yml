@@ -1,0 +1,24 @@
+name: ppg-stroke-warning-prognosis
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python>=3.10
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - pytorch
+  - matplotlib
+  - seaborn
+  - jupyter
+  - pytest
+  - pip
+  - pip:
+      - lightgbm
+      - xgboost
+      - shap
+      - imbalanced-learn
+      - pyppg
+
+# Pin exact versions after the implementation has been validated.

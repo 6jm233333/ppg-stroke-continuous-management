@@ -1,0 +1,72 @@
+# Copy this file outside version control and replace the path templates with
+# authorized local paths. Do not commit raw waveform data, PHI, or checkpoints
+# that cannot be redistributed.
+
+warning_training:
+  seed: 42
+  device: auto
+  train_npz: ${PPG_STROKE_DATA}/warning/mimic_train_4h.npz
+  val_npz: ${PPG_STROKE_DATA}/warning/mimic_val_4h.npz
+  test_npz: ${PPG_STROKE_DATA}/warning/mimic_test_4h.npz
+  output_dir: ${PPG_STROKE_RESULTS}/warning_resnet_4h
+  batch_size: 64
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  positive_weight: 3.0
+  patience: 20
+  primary_metric: f2
+  threshold_start: 0.50
+  threshold_end: 1.00
+  threshold_step: 0.01
+
+feature_extraction:
+  manifest_csv: ${PPG_STROKE_DATA}/waveforms/waveform_manifest.csv
+  signal_path_col: signal_path
+  sampling_rate_col: sampling_rate
+  output_dir: ${PPG_STROKE_RESULTS}/features
+
+warning_windowing:
+  input_csv: ${PPG_STROKE_DATA}/features/example_feature_table.csv
+  output_csv: ${PPG_STROKE_RESULTS}/windows/example_4h_labeled.csv
+  horizon_min: 240
+  stable_lookback_min: 480
+  transition_buffer_min: 15
+  blind_zone_min: 0
+
+prognosis_external:
+  device: auto
+  manifest_csv: ${PPG_STROKE_DATA}/prognosis/mcmed_sequence_manifest.csv
+  sequence_path_col: sequence_path
+  group_col: hospitalization_id
+  label_col: label
+  checkpoint_path: ${PPG_STROKE_MODELS}/prognosis_resnet_state_dict.pt
+  output_dir: ${PPG_STROKE_RESULTS}/prognosis_external
+  aggregation: consecutive_k2
+  threshold: 0.5
+  window_size: 2048
+  stride: 1024
+  batch_size: 64
+
+ehr_baseline:
+  seed: 42
+  train_csv: ${PPG_STROKE_DATA}/ehr/mimic_prognosis_features.csv
+  external_csv: ${PPG_STROKE_DATA}/ehr/mcmed_prognosis_features.csv
+  label_col: label
+  id_cols:
+    - patient_uid
+    - hospitalization_id
+  model: lightgbm
+  n_splits: 5
+  threshold: youden
+  output_dir: ${PPG_STROKE_RESULTS}/ehr_baseline
+
+falsification:
+  device: cpu
+  manifest_csv: ${PPG_STROKE_DATA}/falsification/pseudo_anchor_window_feature_manifest.csv
+  feature_path_col: feature_path
+  checkpoint_col: model_checkpoint
+  transformer_path_col: preprocessing_artifact
+  output_dir: ${PPG_STROKE_RESULTS}/falsification
+  write_permutation_anchor: true
+  seed: 42
