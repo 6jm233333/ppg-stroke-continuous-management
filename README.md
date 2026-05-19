@@ -110,6 +110,10 @@ Detailed instructions and required safeguards are in [`docs/REPRODUCIBILITY.md`]
 
 High warning probabilities in alternative pseudo-anchor or permutation-anchor analyses do **not** support a stroke-specific interpretation. They indicate that the warning output may capture a broader pre-recognition haemodynamic activation pattern enriched around clinically documented stroke recognition but not unique to stroke. Avoid describing the model as a stroke-specific diagnostic alert.
 
+## License
+
+No open-source license has been selected for this repository. Until an institutionally approved license is added, all rights are reserved. See `LICENSE_PENDING.md` for details.
+
 ## Citation
 
-If you use this work, cite the manuscript and the repository metadata in [`CITATION.cff`](CITATION.cff). Update DOI or URL fields after formal release.
+Cite the manuscript and the repository metadata in [`CITATION.cff`](CITATION.cff). Update DOI or URL fields after formal release.
