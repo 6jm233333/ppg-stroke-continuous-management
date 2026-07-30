@@ -12,23 +12,20 @@ def assign_warning_label(
     blind_zone_min: int = 15,
 ) -> int:
     """Assign warning labels relative to documented clinical recognition.
+
     For a nominal look-ahead horizon ``horizon_min``:
-    
+
     - 1: warning window from
       ``-horizon_min + transition_buffer_min`` (inclusive) to
       ``-blind_zone_min`` (exclusive).
-    
-    - 0: earlier stable window from
-      ``-stable_lookback_min`` to
+    - 0: earlier stable window from ``-stable_lookback_min`` to
       ``-horizon_min - transition_buffer_min`` (both inclusive).
-    
     - -1: samples within the horizon-boundary transition interval,
       the recognition-proximal blind zone, at or after recognition,
       or outside the stable look-back range.
-    
-    The transition buffer and recognition-proximal blind zone are
-    separate exclusions. Under the study protocol, both parameters
-    are 15 min.
+
+    The transition buffer and recognition-proximal blind zone are separate
+    exclusions. Under the study protocol, both parameters are 15 min.
     """
     if pd.isna(time_rel_min):
         return -1
