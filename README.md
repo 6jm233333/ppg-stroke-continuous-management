@@ -11,7 +11,7 @@ MIMIC-III is used for internal development, and MC-MED is reserved for frozen ex
 
 The project asks whether beat-level PPG morphology contains information that is not fully captured by structured electronic health record (EHR) data. It does not claim that PPG replaces neurological examination, neuroimaging, electrocardiography, laboratory testing, clinical scoring, or structured clinical assessment.
 
-The warning analysis uses clinically anchored stroke-recognition times and evaluates warning windows at 4, 5 and 6 h before the recognition anchor. The prognosis analysis distinguishes improved from worsened-or-deceased clinical trajectories after stroke-associated admission.
+The warning analysis evaluates nominal 4-, 5- and 6-h look-ahead schemes relative to documented clinical recognition. Label construction uses a 15-min transition buffer on each side of the nominal horizon boundary and a separate 15-min recognition-proximal blind zone. Samples acquired within the final 15 min before documented recognition are excluded from both training and evaluation. The prognosis analysis distinguishes improved from worsened-or-deceased clinical trajectories after stroke-associated admission.
 
 ## Repository status
 
@@ -36,7 +36,7 @@ Code/
 
 ## Core code
 
-- `src/ppg_stroke/features/windowing.py`: warning-window time-axis reconstruction and 4 h, 5 h, 6 h label assignment.
+- `src/ppg_stroke/features/windowing.py`: warning-window time-axis reconstruction, 4 h, 5 h and 6 h label assignment, horizon-boundary transition exclusion, and the 15-min recognition-proximal blind zone.
 - `src/ppg_stroke/features/pyppg_extractor.py`: isolated PyPPG extraction wrapper for beat-level morphology tables.
 - `src/ppg_stroke/features/preprocessing.py`: Step45-compatible Yeo-Johnson transform, REL residualization and time-only channels.
 - `src/ppg_stroke/models/resnet1d.py`: 1D residual network used for PPG morphology sequences.
@@ -86,7 +86,13 @@ pytest
 Representative commands:
 
 ```bash
-python scripts/rebuild_warning_windows.py --input-csv features.csv --output-csv windows_4h.csv --horizon-min 240
+python scripts/rebuild_warning_windows.py \
+  --input-csv features.csv \
+  --output-csv windows_4h.csv \
+  --horizon-min 240 \
+  --stable-lookback-min 480 \
+  --transition-buffer-min 15 \
+  --blind-zone-min 15
 python scripts/extract_ppg_features.py --manifest-csv waveform_manifest.csv --output-dir results/features
 python scripts/train_warning_resnet.py --config configs/study.local.yaml
 python scripts/run_prognosis_external.py --config configs/study.local.yaml
@@ -99,10 +105,11 @@ After authorized inputs are available, the recommended order is:
 1. Prepare local data paths outside the Git repository.
 2. Build cohort and anchor manifests.
 3. Extract PPG morphology features with the validated PyPPG-based pipeline.
-4. Train internal MIMIC-III models using patient-level or group-aware cross-validation.
-5. Freeze preprocessing, thresholds, and model checkpoints.
-6. Apply frozen models to MC-MED without retuning or recalibration.
-7. Regenerate tables, figures, SHAP summaries, signal-quality analyses, and diagnostic falsification analyses.
+4. Construct warning labels using the nominal horizon, the 15-min-per-side transition buffer and the separate 15-min recognition-proximal blind zone.
+5. Train internal MIMIC-III models using patient-level or group-aware cross-validation.
+6. Freeze preprocessing, thresholds, and model checkpoints.
+7. Apply frozen models to MC-MED without retuning or recalibration.
+8. Regenerate tables, figures, SHAP summaries, signal-quality analyses, and diagnostic falsification analyses.
 
 Detailed instructions and required safeguards are in [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md).
 
