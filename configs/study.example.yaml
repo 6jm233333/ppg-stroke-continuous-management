@@ -27,6 +27,8 @@ feature_extraction:
   output_dir: ${PPG_STROKE_RESULTS}/features
 
 warning_windowing:
+  input_csv: ${PPG_STROKE_DATA}/features/example_feature_table.csv
+  output_csv: ${PPG_STROKE_RESULTS}/windows/example_4h_labeled.csv
   horizon_min: 240
   stable_lookback_min: 480
   transition_buffer_min: 15
