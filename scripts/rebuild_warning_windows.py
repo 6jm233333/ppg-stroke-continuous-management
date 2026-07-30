@@ -21,8 +21,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--wave-end-col", default="Wave_End")
     parser.add_argument("--anchor-col", default="Actual_Stroke_Time")
     parser.add_argument("--stable-lookback-min", type=int, default=480)
-    parser.add_argument("--transition-buffer-min", type=int, default=15)
-    parser.add_argument("--blind-zone-min", type=int, default=0)
+    parser.add_argument(
+        "--transition-buffer-min",
+        type=int,
+        default=15,
+        help=(
+            "Minutes excluded on each side of the nominal horizon boundary; "
+            "default: 15."
+        ),
+    )
+    parser.add_argument(
+        "--blind-zone-min",
+        type=int,
+        default=15,
+        help=(
+            "Minutes immediately before documented recognition excluded from "
+            "all labels; default: 15."
+        ),
+    )
     return parser.parse_args()
 
 
