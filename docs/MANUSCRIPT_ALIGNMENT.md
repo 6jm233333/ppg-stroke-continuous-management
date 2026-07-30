@@ -23,6 +23,9 @@ Use these phrases consistently:
 - continuous haemodynamic information
 - pre-recognition warning state
 - clinically anchored stroke-recognition time
+- nominal 4-, 5- and 6-h look-ahead horizons
+- 15-min-per-side horizon-boundary transition buffer
+- separate 15-min recognition-proximal blind zone
 - frozen external validation
 - patient-level split
 - post-admission prognosis stratification
@@ -42,12 +45,24 @@ Avoid these phrases unless a future validated analysis truly supports them:
 - event controls validated the model
 - pseudo-anchor analysis confirmed specificity
 - model replaces neurological assessment
+- exact 4-, 5- or 6-h lead time
+- positive warning window extending to the recognition anchor
+- blind-zone sensitivity analysis when referring to recognition-anchor perturbation
 
 ## Diagnostic falsification interpretation
 
 The correct interpretation is:
 
 > Diagnostic falsification analyses show that warning probabilities were not restricted to clinically anchored stroke-recognition windows. This supports cautious interpretation: the warning signal is better described as a non-specific pre-recognition haemodynamic activation pattern that may be enriched before clinically documented stroke recognition.
+
+## Windowing terminology
+
+The warning-window protocol contains two separate exclusions:
+
+1. A 15-min transition buffer on each side of the nominal horizon boundary.
+2. A 15-min recognition-proximal blind zone covering \([-15,0)\) min.
+
+Recognition-anchor perturbation, pseudo-anchor analysis and permutation-anchor analysis are separate sensitivity or falsification procedures and must not be described as blind-zone experiments.
 
 ## Clinical boundary
 
@@ -70,6 +85,10 @@ diagnostic alert
 confirmed specificity
 confirmed robustness
 robust negative controls
+blind_zone_min: 0
+blind_zone_min: int = 0
+up to the recognition anchor
+no separate pre-anchor blind zone
 ```
 
 Any occurrence must be justified as a phrase-to-avoid example or removed.

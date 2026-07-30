@@ -17,7 +17,21 @@ The manuscript uses de-identified retrospective clinical and waveform datasets. 
 
 ### Pre-recognition warning cohort
 
-Eligible records are monitored inpatients who had not yet developed stroke during the analysed pre-event period but subsequently had clinically documented in-hospital stroke recognition. PPG segments are aligned to the clinical stroke-recognition anchor. Warning horizons are evaluated at 4, 5 and 6 h before the anchor.
+Eligible records are monitored inpatient records with usable PPG before the adjudicated documented stroke-recognition time. The analysed samples precede documented clinical recognition; the recognition anchor is not interpreted as the biological onset time. Nominal look-ahead horizons are evaluated at 4, 5 and 6 h.
+
+For patient \(i\), let \(T_i\) denote the documented recognition anchor and let \(t\) denote sample time relative to that anchor. For horizon \(H\in\{240,300,360\}\) min, positive samples satisfy
+
+\[
+-(H-15) \le t < -15,
+\]
+
+and negative samples satisfy
+
+\[
+-480 \le t \le -(H+15).
+\]
+
+The interval around the horizon boundary is excluded using a 15-min buffer on each side. A separate 15-min recognition-proximal blind zone excludes the interval \([-15,0)\) min, and all samples at or after recognition are excluded.
 
 ### Prognosis cohort
 
@@ -25,11 +39,12 @@ Eligible records are stroke-associated hospitalizations with waveform linkage an
 
 ## Temporal anchors and leakage prevention
 
-The warning task depends on clinically anchored stroke-recognition times derived from clinical documentation. The temporal design must preserve:
+The warning task depends on clinically anchored stroke-recognition times derived from clinical documentation. The temporal design preserves:
 
-- A stable baseline interval for subject-specific normalization.
-- A transition buffer between stable and warning windows.
-- A lead-time blind zone near the recognition anchor to reduce leakage from peri-recognition physiology.
+- A stable negative interval extending to 480 min before the documented recognition anchor.
+- A 15-min transition buffer on each side of the nominal stable-warning horizon boundary.
+- A separate 15-min recognition-proximal blind zone covering the interval \([-15,0)\) min.
+- Exclusion of all samples at or after documented recognition.
 - Patient-level split integrity so that windows from the same patient do not cross train/test boundaries.
 
 ## PPG morphology extraction
@@ -53,7 +68,7 @@ Structured EHR baselines include tree-based learners such as LightGBM, XGBoost, 
 
 ## Validation design
 
-Internal development uses MIMIC-III. External validation uses MC-MED without retuning, recalibration, or threshold optimization. F1 score is the primary performance metric; accuracy, precision, and recall are secondary metrics.
+Internal development uses MIMIC-III. External validation uses MC-MED without retuning, recalibration, or threshold optimization. F1 score is the primary reported performance metric; accuracy, precision, and recall are secondary metrics.
 
 ## Interpretation
 

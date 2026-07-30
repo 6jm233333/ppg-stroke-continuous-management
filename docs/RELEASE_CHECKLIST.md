@@ -8,6 +8,10 @@ Use this checklist before making the repository public or archiving it with a DO
 - [ ] README describes both tasks: warning and prognosis.
 - [ ] Warning output is not described as stroke-specific.
 - [ ] Diagnostic falsification analyses are described as cautionary evidence, not specificity evidence.
+- [ ] `transition_buffer_min=15` is consistent across code, configuration, documentation and tests.
+- [ ] `blind_zone_min=15` is consistent across code, configuration, documentation and tests.
+- [ ] The transition buffer and recognition-proximal blind zone are described as separate exclusions.
+- [ ] Recognition-anchor perturbation is not described as a blind-zone experiment.
 - [ ] Data availability and code availability statements match the manuscript or approved public-release language.
 
 ## Data governance
@@ -27,6 +31,7 @@ Use this checklist before making the repository public or archiving it with a DO
 - [ ] Random seeds and deterministic settings are documented.
 - [ ] Patient-level and group-aware splits are tested.
 - [ ] MC-MED frozen external validation guardrails are tested.
+- [ ] Boundary tests confirm that `t=-16` min is eligible for the warning class and `t=-15` min is excluded.
 - [ ] Tables and figures can be regenerated from scripts.
 
 ## Software quality

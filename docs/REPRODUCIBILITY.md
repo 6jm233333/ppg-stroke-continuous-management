@@ -30,8 +30,8 @@ Do not place these files under Git version control.
 1. Validate local data paths and access permissions.
 2. Build cohort manifests for the warning and prognosis tasks.
 3. Link waveform records to patient, admission, and event timelines.
-4. Construct warning windows at 4, 5, and 6 h before the recognition anchor.
-5. Apply transition-buffer and lead-time blind-zone exclusions.
+4. Construct nominal 4-, 5- and 6-h look-ahead labels relative to the documented recognition anchor.
+5. Apply a 15-min transition buffer on each side of the nominal horizon boundary and a separate 15-min recognition-proximal blind zone covering \([-15,0)\) min.
 6. Process retained PPG segments through the morphology pipeline.
 7. Build baseline-relative features for the warning task.
 8. Train MIMIC-III internal models using patient-level or group-aware cross-validation.
@@ -48,7 +48,8 @@ The following checks are mandatory:
 - No patient appears in more than one fold for the warning task.
 - No grouped hospitalization or subject leaks across folds in the prognosis task.
 - MC-MED is never used for model selection, threshold optimization, or recalibration.
-- Lead-time blind-zone windows are excluded from warning training and evaluation.
+- Warning samples within the final 15 min before documented recognition are excluded from training and evaluation.
+- The 15-min horizon-boundary transition buffer and the separate 15-min recognition-proximal blind zone are recorded in every run configuration and audit log.
 - Structured EHR baseline variables are restricted to information available before the relevant horizon.
 - PPG signal-quality or retention indicators are not used as prediction features unless explicitly defined as a separate sensitivity analysis.
 
@@ -64,6 +65,7 @@ Each reproducible run should record:
 - Dataset release/version identifiers.
 - Model checkpoint identifiers.
 - Output directory and timestamp.
+- `stable_lookback_min`, `transition_buffer_min`, and `blind_zone_min`.
 
 ## What not to do
 
@@ -71,4 +73,5 @@ Each reproducible run should record:
 - Do not use event-specific negative controls without validated event-anchor timing.
 - Do not infer minute-level event anchors from diagnosis summaries.
 - Do not report pseudo-anchor performance as robustness or specificity evidence.
+- Do not describe recognition-anchor perturbation as a blind-zone analysis.
 - Do not combine patient-level windows across splits.

@@ -28,6 +28,8 @@ The models must not be used as:
 - Internal development: MIMIC-III.
 - External validation: MC-MED.
 - Warning split: patient-level stratified five-fold cross-validation in MIMIC-III.
+- Warning-window protocol: a 15-min transition buffer on each side of the nominal horizon boundary and a separate 15-min recognition-proximal blind zone.
+- Warning exclusion: PPG observations in the final 15 min before documented recognition are excluded from training and evaluation.
 - Prognosis split: stratified group-aware five-fold cross-validation in MIMIC-III.
 - External validation rule: frozen preprocessing, frozen model checkpoints, and no retuning or recalibration on MC-MED.
 
@@ -55,7 +57,8 @@ The model outputs class probabilities. Threshold-dependent metrics are reported 
 Every model result should report:
 
 - Dataset and task.
-- Prediction horizon or prognosis label definition.
+- Nominal look-ahead horizon or prognosis label definition.
+- Warning-window transition buffer and recognition-proximal blind zone.
 - Split design.
 - Number of patients or hospitalizations.
 - Number of windows or waveform units when applicable.

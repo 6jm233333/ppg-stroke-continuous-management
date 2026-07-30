@@ -6,6 +6,14 @@ Diagnostic falsification analyses assess whether high frozen-model warning proba
 
 These analyses are designed to stress-test interpretation. They are not used for model training, model selection, recalibration, or threshold optimization.
 
+## Distinction from the recognition-proximal blind zone
+
+The fixed 15-min recognition-proximal blind zone is part of the primary warning-label construction and excludes samples in \([-15,0)\) min before documented recognition.
+
+Recognition-anchor perturbation is a separate timestamp-uncertainty analysis in which the documented recognition anchor is shifted and labels are regenerated under the same windowing protocol.
+
+Pseudo-anchor and permutation-anchor analyses are diagnostic falsification analyses. None of these analyses should be described as a blind-zone experiment.
+
 ## Included paper-ready analyses
 
 ### Pseudo-anchor analysis
@@ -47,3 +55,4 @@ Avoid:
 - "stroke-specific warning"
 - "diagnostic alert"
 - "event controls validated the model" unless validated event anchors actually exist
+- "blind-zone analysis" when referring to anchor perturbation, pseudo-anchor or permutation-anchor analyses

@@ -4,7 +4,7 @@ This repository is a cleaned, release-oriented implementation derived from the p
 
 | Release file | Primary source script | Preserved implementation logic |
 | --- | --- | --- |
-| `src/ppg_stroke/features/windowing.py` | `Step6_Mimic_60_30_labels.py` | Warning labels relative to clinical recognition anchor: stable negative window within 8 h, transition buffer around the warning-horizon boundary, positive warning interval up to the recognition anchor, post-anchor exclusion. |
+| `src/ppg_stroke/features/windowing.py` | `Step6_Mimic_60_30_labels.py` and the authoritative warning-window protocol | Warning labels relative to documented clinical recognition: stable negative interval within 8 h, 15-min transition buffer on each side of the nominal horizon boundary, positive warning interval ending 15 min before recognition, a separate 15-min recognition-proximal blind zone, and post-anchor exclusion. |
 | `src/ppg_stroke/schemas.py` | `Step6_Mimic_60_30_labels.py`; `Step45_Rebuttal_REL_Residual_Test.py` | Canonical 17 PPG morphology columns and REL/NoREL feature group definitions. |
 | `src/ppg_stroke/features/preprocessing.py` | `Step45_Rebuttal_REL_Residual_Test.py`; frozen negative-control script | Yeo-Johnson PowerTransformer preprocessing, constant-column handling, REL residualization against `Time_Rel_Min`, and time-only channel construction. |
 | `src/ppg_stroke/models/resnet1d.py` | `Step45_Rebuttal_REL_Residual_Test.py`; frozen negative-control script | ResNet-1D block structure for `[batch, time, features]` PPG morphology tensors. |
@@ -18,6 +18,7 @@ This repository is a cleaned, release-oriented implementation derived from the p
 
 - Private absolute paths were removed and replaced with config-driven paths.
 - Large raw datasets, feature matrices, model checkpoints and clinical identifiers are excluded from Git.
+- The public release default for `blind_zone_min` was corrected from 0 to 15 min to match the authoritative protocol used for the reported analyses. This correction aligns the released implementation with the study design and does not represent a reanalysis or a change to reported results.
 - Event-specific negative controls are not implemented as a default paper-ready workflow because validated event-anchor timing was insufficient.
 - Matched non-stroke control performance claims are not exposed as a main reporting workflow because matching balance was not adequate for specificity claims.
 - The warning task is described as a pre-recognition haemodynamic warning signal, not as a stroke-specific diagnostic alert.
@@ -25,4 +26,3 @@ This repository is a cleaned, release-oriented implementation derived from the p
 ## Reproducibility boundary
 
 The code is intended to be executable by authorized users who can provide the same derived manifests, feature tables and checkpoints used in the analysis. It is not a synthetic example project and should not be mixed with unvalidated anchors or summary-only tables.
-
