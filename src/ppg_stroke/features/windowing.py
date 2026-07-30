@@ -9,7 +9,7 @@ def assign_warning_label(
     horizon_min: int,
     stable_lookback_min: int = 480,
     transition_buffer_min: int = 15,
-    blind_zone_min: int = 0,
+    blind_zone_min: int = 15,
 ) -> int:
     """Assign warning labels relative to clinical recognition time.
 
